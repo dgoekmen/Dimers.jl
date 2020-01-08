@@ -14,7 +14,6 @@ export dimers,
        dimerheight
 
 import Graphs, 
-       Graphics2D
 
 function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},
                    startingvertex::Int64,
@@ -231,6 +230,7 @@ end
 
 dimersample(n::Integer) = dimersample(n,n)
 
+"""
 function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
                          pointsize=0.002,
                          linewidth=1.0)
@@ -247,6 +247,7 @@ function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
     
     return [all_points; all_edges]
 end
+"""
 
 function dimerheight{V,E}(dimergraph::Graphs.AbstractGraph{V,E})
     
