@@ -13,7 +13,7 @@ export dimers,
        drawgraph, 
        dimerheight
 
-import Graphs, 
+import Graphs
 
 function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},
                    startingvertex::Int64,
