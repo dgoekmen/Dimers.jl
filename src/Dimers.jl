@@ -15,7 +15,8 @@ export dimers,
 
 import Graphs
 
-function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},
+
+function LERW(Γ::Graphs.AbstractGraph,
                    startingvertex::Int64,
                    roots::Array{Bool,1};
                    maxiter::Integer=10^7)
@@ -39,7 +40,8 @@ function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},
     return vert[X]
 end
 
-function Wilson{V,E}(Γ::Graphs.AbstractGraph{V,E},roots::Array{Bool,1})
+
+function Wilson(Γ::Graphs.AbstractGraph,roots::Array{Bool,1})
 
     if length(Graphs.connected_components(Γ)) > 1
         error("Graph not connected")
@@ -70,6 +72,7 @@ function Wilson{V,E}(Γ::Graphs.AbstractGraph{V,E},roots::Array{Bool,1})
     end
     return UST
 end
+
 
 rotate(segment::Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}) = 
 (div(segment[1][1] + segment[2][1] - segment[1][2] + segment[2][2],2), 
@@ -249,7 +252,8 @@ function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
 end
 """
 
-function dimerheight{V,E}(dimergraph::Graphs.AbstractGraph{V,E})
+
+function dimerheight(dimergraph::Graphs.AbstractGraph)
     
     all_edges = Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}[]
     
@@ -298,3 +302,5 @@ function dimerheight{V,E}(dimergraph::Graphs.AbstractGraph{V,E})
 end
 
 end # module
+
+
