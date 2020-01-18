@@ -21,7 +21,8 @@ export Wilson,
        flatten, 
        midpoint, 
        dimersample, 
-       dimerheight
+       dimerheight,
+       dimerSitesBonds
 
 import Graphs
 
