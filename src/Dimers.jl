@@ -1,16 +1,26 @@
+"""
+[Based on arXiv:math/9903025v2 by Kenyon, Propp, Wilson (2000)]
+Generates samples from the dimer model on a 2-d rectangular lattice.
+Also supports loop erased random walks and Wilson's algorithm on an 
+arbitrary graph.
+
+Authors: Samuel S. Watson, Doruk Efe Gökmen
+Date: 17/01/2020
+
+TODO: implement the dataformat used in the MKJ-ZR paper.
+"""
+
 __precompile__(true)
 
 module Dimers
 
-export dimers, 
-       Wilson, 
+export Wilson, 
        LERW, 
        gridgraph, 
        rotate, 
        flatten, 
        midpoint, 
        dimersample, 
-       drawgraph, 
        dimerheight
 
 import Graphs
@@ -252,6 +262,40 @@ function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
 end
 """
 
+function dimerSitesBonds(N_white::Int64, corr_spin::Bool)
+    g = dimersample(N_white)
+
+    A = zeros(Int8, 4N_white, 4N_white)
+
+    for i=1:N_white
+        for j=1:N_white
+            k = 2i-1
+            l = 2j
+            delta1 = [t for t in Graphs.out_neighbors((k, l), g)[1]] - [k, l]
+            
+            m = 2i
+            n = 2j-1
+            delta2 = [t for t in Graphs.out_neighbors((m, n), g)[1]] - [m, n]
+            
+            A[([2k-1, 2l-1] + delta1)[1], ([2k-1, 2l-1] + delta1)[2]] = 1
+            A[([2m-1, 2n-1] + delta2)[1], ([2m-1, 2n-1] + delta2)[2]] = 1
+            
+            for p=0:1
+                for r=0:1
+                    A[2(i+p*N_white)-1, 2(j+r*N_white)-1] = rand(0:1)
+                    if corr_spin
+                        A[2(i+p*N_white), 2(j+r*N_white)] = A[2(i+p*N_white)-1, 2(j+r*N_white)-1]
+                    else
+                        A[2(i+p*N_white), 2(j+r*N_white)] = rand(0:1)
+                    end
+                end
+            end
+        end
+    end
+
+    return A
+end
+
 
 function dimerheight(dimergraph::Graphs.AbstractGraph)
     
@@ -302,5 +346,3 @@ function dimerheight(dimergraph::Graphs.AbstractGraph)
 end
 
 end # module
-
-
